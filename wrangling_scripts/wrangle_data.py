@@ -1,5 +1,7 @@
 import pandas as pd
+import requests
 import plotly.graph_objs as go
+from collections import defaultdict
 
 # Use this file to read in your data and prepare the plotly visualizations. The path to the data files are in
 # `data/file_name.csv`
@@ -14,8 +16,29 @@ def return_figures():
         list (dict): list containing the four plotly visualizations
 
     """
+    
+    # Get the data from the world bank api 
+    payload = {'format': 'json', 'per_page': '1000', 'date': '1970:2012'}
+    indicator = ['EN.ATM.CO2E.GF.KT', 'one other']
+    
+    all_data = []
+    
+    for i in indicator:
+        url = 'https://api.worldbank.org/v2/countries/us;cn/indicators/{}'.format(indicator[i])
+        
+        try:
+            r = requests.get(url, params = payload)
+            data = r.json()[1]
+        except:
+            print('data not loaded correctly for indicator {}'.format(i))
+            
+        for i, val in enumerate(data):
+            val['indicator'] = val['indicator']['value']
+            val['country'] = val['country']['value']
 
-    # first chart plots arable land from 1990 to 2015 in top 10 economies 
+        all_data.append(data)
+    
+    # first chart plots co2 emissions from US and China from 1970-2011 
     # as a line chart
     
     graph_one = []    
@@ -47,43 +70,11 @@ def return_figures():
                 yaxis = dict(title = 'y-axis label'),
                 )
 
-
-# third chart plots percent of population that is rural from 1990 to 2015
-    graph_three = []
-    graph_three.append(
-      go.Scatter(
-      x = [5, 4, 3, 2, 1, 0],
-      y = [0, 2, 4, 6, 8, 10],
-      mode = 'lines'
-      )
-    )
-
-    layout_three = dict(title = 'Chart Three',
-                xaxis = dict(title = 'x-axis label'),
-                yaxis = dict(title = 'y-axis label')
-                       )
-    
-# fourth chart shows rural population vs arable land
-    graph_four = []
-    
-    graph_four.append(
-      go.Scatter(
-      x = [20, 40, 60, 80],
-      y = [10, 20, 30, 40],
-      mode = 'markers'
-      )
-    )
-
-    layout_four = dict(title = 'Chart Four',
-                xaxis = dict(title = 'x-axis label'),
-                yaxis = dict(title = 'y-axis label'),
-                )
     
     # append all charts to the figures list
     figures = []
     figures.append(dict(data=graph_one, layout=layout_one))
     figures.append(dict(data=graph_two, layout=layout_two))
-    figures.append(dict(data=graph_three, layout=layout_three))
-    figures.append(dict(data=graph_four, layout=layout_four))
+
 
     return figures
