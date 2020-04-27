@@ -58,7 +58,7 @@ def return_figures():
           )
         )
 
-    layout_one = dict(title = 'CO2 Emissions from 1970-2011',
+    layout_one = dict(title = 'CO2 Emissions from Gaseous Fuel Consumption from 1970-2011',
                 xaxis = dict(title = 'Year'),
                 yaxis = dict(title = 'CO2 Emissions (kt)'),
                 )
