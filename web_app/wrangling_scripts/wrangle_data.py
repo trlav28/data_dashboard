@@ -58,7 +58,7 @@ def return_figures():
           )
         )
 
-    layout_one = dict(title = 'CO2 Emissions from Gaseous Fuel Consumption from 1970-2011',
+    layout_one = dict(title = 'CO2 Emissions from Gaseous Fuel Consumption from 1970-2012',
                 xaxis = dict(title = 'Year'),
                 yaxis = dict(title = 'CO2 Emissions (kt)'),
                 )
@@ -83,7 +83,7 @@ def return_figures():
           )
         )
 
-    layout_two = dict(title = 'Forest Area from 1970-2011',
+    layout_two = dict(title = 'Forest Area from 1990-2012',
                 xaxis = dict(title = 'Year',),
                 yaxis = dict(title = 'Forest Area (sq. km)'),
                 )
